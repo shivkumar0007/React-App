@@ -1,50 +1,77 @@
-import { useContext, useState } from 'react';
-import imageCounter from '../assets/study_Anime.png'
-import { ThemeContext } from '../store/ThemeContext';
-import Navbar from './Navbar';
-import { useNavigate } from 'react-router-dom';
-
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../store/ThemeContext";
+import Navbar from "./Navbar";
+import ProjectCard from "./ProjectCard";
+import ProjectSearch from "./projectSearch";
 
 const Projects = ({ hideNav }) => {
-  const [projectContainer] = useState([{name: "Counter",image: imageCounter, para: "Counter Application"}
-    ,{name: "TodoList",image: imageCounter, para: "Counter Application"}
-    ])
+  const [projectContainer, setProjectContainer] = useState([]);
+  const { theme } = useContext(ThemeContext);
+  const [loading, setLoading] = useState(true);
 
-    const navigate = useNavigate();
+  async function dataFetch() {
+    try {
+    const localData = localStorage.getItem("projects");
+    if (localData) {
+      setProjectContainer(JSON.parse(localData));
+      setLoading(false);
+      return;
+    }
+    const data = await fetch(
+      "https://69aa9d1ae051e9456fa1e8d7.mockapi.io/products",
+    );
+    const res = await data.json();
+    setProjectContainer(res);
+    setLoading(false);
+    localStorage.setItem("projects", JSON.stringify(res));
+  }
+  catch (error){
+    console.error("Error fetching projects:", error);
+  } finally{
+    setLoading(false);
+  }
+  }
+  useEffect(() => {
+    dataFetch();
+  }, []);
 
-  const {theme, setTheme} = useContext(ThemeContext);
-  return (
-    <>
-    {!hideNav && <Navbar/>}
-    <div className={theme=="light"? "text-gray-800 flex flex-col items-center pt-20 justify-around " : "text-gray-200 flex flex-col items-center pt-20 justify-around"}>
-
-      <h2 className="text-2xl font-bold underline">Projects</h2>
-<div className="grid grid-cols-4 mt-10 gap-7 p-10 w-full justify-around ">
-  
-  {
-      projectContainer.map((ele,idx)=>{
-        return    <div key={idx} className={theme=="light"? "border-gray-200 border-2 w-full h-full rounded-xl flex flex-col items-center justify-center": "border-gray-700 border-2 w-full h-full rounded-xl flex flex-col items-center justify-center"}>
-        <h3 className='font-medium text-2xl'>{ele.name}</h3>
-        <div className={theme=="light"? "h-60 bg-gray-500 rounded-2xl w-full" : "h-60 bg-gray-900 rounded-2xl w-full"}>
-          <img className={theme=="light"?"bg-white shadow-md h-full w-full object-cover rounded-2xl" : "bg-gray-800 shadow-md h-full w-full object-cover rounded-2xl"} src={ele.image} alt="" />
-        </div>
-        <p>{ele.para}</p>
-       <div>
-         <button onClick={()=>{navigate(`/projects/${ele.name.toLowerCase()}`)}} className={theme=="light"?"p-1 mr-3 rounded border-2 bg-blue-400 hover:bg-blue-600" : "p-1 mr-3 rounded border-2 bg-purple-600  hover:bg-purple-700"}>View Project</button>
-         <button className={theme=="light"?"p-1 mr-3 rounded border-2 bg-blue-400 hover:bg-blue-600" : "p-1 mr-3 rounded border-2 bg-purple-600  hover:bg-purple-700"}>GitHub</button>
-       </div>
-      </div>
-
-      })
+  if (loading) {
+    return (
+      <p
+        className={
+          theme == "light"
+            ? "font-bold text-2xl text-gray-800 text-center mt-20"
+            : "font-bold text-2xl text-gray-200 text-center mt-20"
+        }
+      >
+        Loading...
+      </p>
+    );
   }
 
-</div>
-    </div>
+  return (
+    <>
+      {!hideNav && <Navbar />}
+
+      <div
+        className={
+          theme === "light"
+            ? "text-gray-800 flex flex-col items-center pt-20"
+            : "text-gray-200 flex flex-col items-center pt-20"
+        }
+      > 
+        <h2 className="text-2xl font-bold underline">Projects</h2>
+
+        <ProjectSearch />
+
+        <div className="grid grid-cols-4 mt-10 gap-7 p-10 w-full">
+          {projectContainer.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      </div>
     </>
   );
 };
 
 export default Projects;
-
-
-   
