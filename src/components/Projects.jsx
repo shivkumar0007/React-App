@@ -15,7 +15,6 @@ const Projects = ({ hideNav }) => {
     if (localData) {
       setProjectContainer(JSON.parse(localData));
       setLoading(false);
-      return;
     }
     const data = await fetch(
       "https://69aa9d1ae051e9456fa1e8d7.mockapi.io/products",
