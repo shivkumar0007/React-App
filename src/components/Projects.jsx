@@ -13,9 +13,10 @@ const Projects = () => {
     const navigate = useNavigate();
 
   const {theme, setTheme} = useContext(ThemeContext);
+  const [hideNav] = useState(true);
   return (
     <>
-    <Navbar/>
+    {!hideNav && <Navbar/>}
     <div className={theme=="light"? "text-gray-800 flex flex-col items-center pt-20 justify-around " : "text-gray-200 flex flex-col items-center pt-20 justify-around"}>
 
       <h2 className="text-2xl font-bold underline">Projects</h2>

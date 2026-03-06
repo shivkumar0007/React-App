@@ -4,9 +4,10 @@ import Navbar from "./Navbar";
 
 const Skills = () => {
   const {theme, setTheme} = useContext(ThemeContext);
+  const [hideNav] = useState(true);
   return (
     <>
-    <Navbar/>
+    {!hideNav && <Navbar/>}
     <div className={theme=="light"? "text-gray-800 flex flex-col items-center pt-20 w-full justify-center " : "text-gray-200 flex flex-col items-center pt-20 w-full justify-center "}>
 
       <h2 className="text-2xl font-bold underline mb-6">Skills</h2>
