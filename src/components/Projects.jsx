@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { ThemeContext } from "../store/ThemeContext";
 import Navbar from "./Navbar";
 import ProjectCard from "./ProjectCard";
-import ProjectSearch from "./projectSearch";
+import ProjectSearch from "./ProjectSearch";
 
 const Projects = ({ hideNav }) => {
   const [projectContainer, setProjectContainer] = useState([]);
