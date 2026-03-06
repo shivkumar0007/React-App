@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 
 
-const Projects = () => {
+const Projects = ({ hideNav }) => {
   const [projectContainer] = useState([{name: "Counter",image: imageCounter, para: "Counter Application"}
     ,{name: "TodoList",image: imageCounter, para: "Counter Application"}
     ])
@@ -13,7 +13,6 @@ const Projects = () => {
     const navigate = useNavigate();
 
   const {theme, setTheme} = useContext(ThemeContext);
-  const [hideNav] = useState(true);
   return (
     <>
     {!hideNav && <Navbar/>}

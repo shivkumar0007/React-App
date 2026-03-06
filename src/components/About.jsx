@@ -1,10 +1,9 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../store/ThemeContext";
 import Navbar from "./Navbar";
 
-const About = () => {
+const About = ({ hideNav }) => {
   const {theme, setTheme} = useContext(ThemeContext);
-  const [hideNav] = useState(true);
   return (
 <>
 {!hideNav && <Navbar/>}

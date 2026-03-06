@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import {useState } from "react";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import Skills from "./components/Skills";
@@ -8,14 +8,15 @@ import Navbar from "./components/Navbar";
 
 
 function Home() {
+  const [hideNav] = useState(true);
   return (
      <div>
       <Navbar/>
-      <Hero/>
-      <About/>
-      <Skills/>
-      <Projects/>
-      <Contact/>
+      <Hero hideNav={hideNav} />
+      <About hideNav={hideNav} />
+      <Skills hideNav={hideNav} />
+      <Projects hideNav={hideNav} />
+      <Contact hideNav={hideNav} />
     </div>
   
   );
