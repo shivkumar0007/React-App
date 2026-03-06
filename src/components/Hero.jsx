@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import image from '../assets/study_Anime.png'
 import { ThemeContext } from '../store/ThemeContext';
 import Navbar from './Navbar';
